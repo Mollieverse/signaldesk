@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SignalDesk — AI-Native Global Newsroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ════════════════════════════════════════════════
+   SIGNALDESK v2 — BLOOMBERG GRADE
+   ════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:   #080808;
+  --ink:     #141414;
+  --ink-2:   #2C2C2C;
+  --ink-3:   #4A4A4A;
+  --ink-4:   #6E6E6E;
+  --rule-dk: #D0D0CC;
+  --rule:    #E4E4E0;
+  --rule-lt: #F0F0EC;
+  --mist:    #F7F7F5;
+  --paper:   #FAFAF8;
+  --white:   #FFFFFF;
+  --red:     #C0392B;
+  --red-dim: #8B2A1F;
+  --green:   #1A6B3C;
+  --blue:    #1B3A6B;
+  --serif-display: 'Libre Caslon Display', 'Georgia', serif;
+  --serif-text:    'Libre Caslon Text', 'Georgia', serif;
+  --body:          'Source Serif 4', 'Georgia', serif;
+  --mono:          'DM Mono', 'Courier New', monospace;
+}
+html { font-size: 16px; color: var(--ink); background: var(--paper); scroll-behavior: smooth; text-rendering: optimizeLegibility; }
+body { font-family: var(--body); font-weight: 300; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button { border: none; background: none; font: inherit; cursor: pointer; color: inherit; }
+::selection { background: rgba(192,57,43,0.12); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--rule-dk); }
+
+.wrap    { max-width: 1360px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 768px) { .wrap { padding: 0 18px; } }
+
+/* ═══ TOP STRIP ═══ */
+.top-strip { background: var(--black); border-bottom: 1px solid #1e1e1e; height: 30px; }
+.top-strip-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+.strip-date { font-family: var(--mono); font-size: 9px; color: #666; letter-spacing: 0.1em; text-transform: uppercase; }
+.strip-markets { display: flex; align-items: center; gap: 20px; }
+.mkt { display: flex; align-items: baseline; gap: 5px; }
+.mkt-n { font-family: var(--mono); font-size: 8.5px; color: #555; letter-spacing: 0.08em; text-transform: uppercase; }
+.mkt-v { font-family: var(--mono); font-size: 10px; color: #aaa; }
+.mkt-c { font-family: var(--mono); font-size: 9px; }
+.up { color: #2E8B57; } .dn { color: #C0392B; }
+.strip-live { display: flex; align-items: center; gap: 7px; }
+.live-pulse { width: 5px; height: 5px; border-radius: 50%; background: #2E8B57; position: relative; }
+.live-pulse::after { content:''; position:absolute; inset:-3px; border-radius:50%; border:1px solid #2E8B57; animation: ring 2s ease-out infinite; opacity:0; }
+@keyframes ring { 0%{opacity:.7;transform:scale(.8)} 100%{opacity:0;transform:scale(2.2)} }
+.live-text { font-family: var(--mono); font-size: 8.5px; color: #2E8B57; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ═══ MASTHEAD ═══ */
+#site-header { position: sticky; top: 0; z-index: 200; background: var(--white); }
+.masthead { border-bottom: 3px solid var(--black); }
+.masthead-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 68px; }
+.masthead-left { display: flex; flex-direction: column; gap: 3px; }
+.mh-ed  { font-family: var(--mono); font-size: 8px; color: var(--ink-4); letter-spacing: 0.18em; text-transform: uppercase; }
+.mh-tag { font-family: var(--body); font-size: 11px; color: var(--ink-3); font-weight: 300; font-style: italic; }
+.logo-center { text-align: center; cursor: pointer; user-select: none; }
+.logo-word { font-family: var(--serif-display); font-size: clamp(24px,4vw,36px); color: var(--black); letter-spacing: -0.01em; line-height: 1; display: block; }
+.logo-sub  { font-family: var(--mono); font-size: 7px; color: var(--ink-4); letter-spacing: 0.22em; text-transform: uppercase; margin-top: 5px; display: block; }
+.masthead-right { display: flex; justify-content: flex-end; align-items: center; gap: 20px; }
+.mh-stat { text-align: right; }
+.mh-stat-v { font-family: var(--mono); font-size: 13px; color: var(--ink); display: block; line-height: 1; }
+.mh-stat-l { font-family: var(--mono); font-size: 7.5px; color: var(--ink-4); letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-top: 4px; }
+.mh-vr { width: 1px; height: 26px; background: var(--rule); }
+
+/* ═══ SECTION NAV ═══ */
+.section-nav { border-bottom: 1px solid var(--rule); background: var(--white); }
+.section-nav-inner { display: flex; height: 36px; align-items: center; }
+.nav-item { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4); padding: 0 14px; height: 100%; display: flex; align-items: center; cursor: pointer; position: relative; transition: color .12s; border-right: 1px solid var(--rule); }
+.nav-item:first-child { padding-left: 0; }
+.nav-item::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .2s cubic-bezier(.4,0,.2,1); }
+.nav-item:hover { color: var(--ink); } .nav-item:hover::after { transform:scaleX(1); }
+.nav-item.active { color: var(--ink); } .nav-item.active::after { transform:scaleX(1); }
+
+/* ═══ TICKER ═══ */
+.ticker { background: var(--mist); border-bottom: 1px solid var(--rule); height: 27px; display: flex; align-items: center; overflow: hidden; }
+.ticker-flag { flex-shrink:0; background:var(--red); height:100%; display:flex; align-items:center; padding:0 14px; }
+.ticker-flag span { font-family:var(--mono); font-size:8px; color:white; letter-spacing:.22em; text-transform:uppercase; }
+.ticker-track { flex:1; overflow:hidden; }
+@keyframes scrollx { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.ticker-belt { display:flex; width:max-content; animation:scrollx 55s linear infinite; }
+.ticker-belt:hover { animation-play-state:paused; }
+.tick { display:flex; align-items:center; gap:10px; padding:0 28px; white-space:nowrap; }
+.tick-sec { font-family:var(--mono); font-size:8px; color:var(--red); letter-spacing:.14em; text-transform:uppercase; }
+.tick-bar { width:1px; height:9px; background:var(--rule-dk); }
+.tick-txt { font-family:var(--body); font-size:11px; color:var(--ink-3); font-weight:300; }
+.tick-dot { color:var(--rule-dk); font-size:7px; margin-left:18px; }
+
+/* ═══ EDITORIAL BAR ═══ */
+.editorial-bar { border-bottom: 1px solid var(--rule); height: 32px; display: flex; align-items: center; justify-content: space-between; }
+.ed-note { font-family:var(--mono); font-size:8.5px; color:var(--ink-4); letter-spacing:.14em; text-transform:uppercase; }
+
+/* ═══ FRONT PAGE ═══ */
+.front-page { padding-top: 32px; }
+.front-grid { display: grid; grid-template-columns: 1fr 300px; gap: 0; border-top: 1px solid var(--rule); }
+.front-main { padding: 28px 40px 32px 0; border-right: 1px solid var(--rule); }
+.front-sidebar { padding: 0 0 32px 32px; }
+
+.lead-kicker { font-family:var(--mono); font-size:8.5px; color:var(--red); letter-spacing:.2em; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:9px; }
+.lead-kicker::before { content:''; display:inline-block; width:14px; height:1.5px; background:var(--red); }
+.lead-headline { font-family:var(--serif-display); font-size:clamp(1.85rem,3.2vw,2.7rem); line-height:1.07; letter-spacing:-0.015em; color:var(--black); margin-bottom:15px; cursor:pointer; transition:color .12s; max-width:680px; }
+.lead-headline:hover { color:var(--red); }
+.lead-deck { font-family:var(--body); font-size:1.0625rem; line-height:1.58; color:var(--ink-2); font-weight:300; max-width:600px; margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid var(--rule); }
+.lead-meta { display:flex; align-items:center; gap:0; flex-wrap:wrap; margin-bottom:18px; }
+.lm-piece { font-family:var(--mono); font-size:9px; color:var(--ink-4); letter-spacing:.06em; padding-right:12px; margin-right:12px; border-right:1px solid var(--rule-dk); white-space:nowrap; }
+.lm-piece:last-child { border-right:none; }
+.lm-piece.ok { color:var(--green); }
+.lead-cta { font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--red); display:inline-flex; align-items:center; gap:8px; cursor:pointer; transition:gap .15s; }
+.lead-cta:hover { gap:13px; }
+
+/* Sidebar stories */
+.sb-story { padding:16px 0; border-bottom:1px solid var(--rule); cursor:pointer; }
+.sb-story:first-child { padding-top:24px; }
+.sb-story:last-child { border-bottom:none; padding-bottom:0; }
+.sb-story:hover .sb-hed { color:var(--red); }
+.sb-kicker { font-family:var(--mono); font-size:8px; color:var(--red-dim); letter-spacing:.14em; text-transform:uppercase; margin-bottom:7px; }
+.sb-hed { font-family:var(--serif-text); font-size:.9375rem; font-weight:700; line-height:1.3; color:var(--ink); margin-bottom:7px; transition:color .12s; }
+.sb-deck { font-family:var(--body); font-size:12px; color:var(--ink-3); line-height:1.55; font-weight:300; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.sb-time { font-family:var(--mono); font-size:8px; color:var(--ink-4); margin-top:7px; }
+
+/* ═══ GRID ═══ */
+.grid-section { padding:32px 0 8px; }
+.sec-div { display:flex; align-items:center; gap:14px; margin-bottom:24px; }
+.sec-div-lbl { font-family:var(--mono); font-size:8.5px; color:var(--ink-4); letter-spacing:.18em; text-transform:uppercase; white-space:nowrap; }
+.sec-div-line { flex:1; height:1px; background:var(--rule); }
+.article-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; }
+.gc { padding:0 28px 28px 0; border-right:1px solid var(--rule); cursor:pointer; }
+.gc:last-child { border-right:none; padding-right:0; }
+.gc::before { content:''; display:block; height:2px; background:var(--rule); margin-bottom:18px; transition:background .15s; }
+.gc:hover::before { background:var(--red); }
+.gc-kicker { font-family:var(--mono); font-size:8px; color:var(--ink-4); letter-spacing:.12em; text-transform:uppercase; margin-bottom:9px; display:flex; gap:7px; align-items:center; }
+.gc-kicker-cat { color:var(--red-dim); }
+.gc-hed { font-family:var(--serif-text); font-size:1rem; font-weight:700; line-height:1.28; color:var(--ink); margin-bottom:9px; transition:color .12s; }
+.gc:hover .gc-hed { color:var(--red); }
+.gc-deck { font-family:var(--body); font-size:12px; color:var(--ink-3); line-height:1.6; font-weight:300; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:10px; }
+.gc-foot { font-family:var(--mono); font-size:8px; color:var(--ink-4); display:flex; gap:8px; align-items:center; }
+.gc-conf { color:var(--green); }
+
+/* ═══ STATS STRIP ═══ */
+.stats-strip { border-top:2px solid var(--black); border-bottom:1px solid var(--rule); padding:20px 0; display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:8px; margin-bottom:0; }
+.stat-cell { padding:0 0 0 32px; border-left:1px solid var(--rule); }
+.stat-cell:first-child { padding-left:0; border-left:none; }
+.stat-n { font-family:var(--serif-display); font-size:26px; color:var(--black); line-height:1; display:block; }
+.stat-l { font-family:var(--mono); font-size:8px; color:var(--ink-4); letter-spacing:.14em; text-transform:uppercase; display:block; margin-top:5px; }
+
+/* ═══ ARTICLE PAGE ═══ */
+.breadcrumb { border-bottom:1px solid var(--rule); height:32px; display:flex; align-items:center; gap:10px; }
+.bc { font-family:var(--mono); font-size:8.5px; color:var(--ink-4); letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:color .12s; }
+.bc:hover { color:var(--ink); } .bc-sep { color:var(--rule-dk); }
+.article-layout { display:grid; grid-template-columns:1fr 292px; gap:0; align-items:start; padding:36px 0; }
+.article-col { padding-right:48px; border-right:1px solid var(--rule); }
+.panel-col { padding-left:28px; }
+
+.art-kicker { display:flex; align-items:center; gap:10px; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--rule); }
+.art-cat { font-family:var(--mono); font-size:8.5px; color:var(--red); letter-spacing:.18em; text-transform:uppercase; }
+.art-vr { width:1px; height:11px; background:var(--rule-dk); }
+.art-region { font-family:var(--mono); font-size:8.5px; color:var(--ink-4); letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--rule); padding:2px 8px; }
+
+.article-headline { font-family:var(--serif-display); font-size:clamp(1.7rem,3.2vw,2.55rem); line-height:1.07; letter-spacing:-0.015em; color:var(--black); margin-bottom:16px; max-width:640px; }
+.article-deck { font-family:var(--body); font-size:1.09375rem; line-height:1.57; color:var(--ink-2); font-weight:300; max-width:600px; margin-bottom:0; padding-bottom:22px; border-bottom:2.5px solid var(--black); }
+
+.byline { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--rule); margin-bottom:30px; flex-wrap:wrap; }
+.byline-badge { width:26px; height:26px; background:var(--black); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.byline-badge span { font-family:var(--serif-display); color:white; font-size:9px; }
+.byline-name { font-family:var(--body); font-size:13px; font-weight:600; color:var(--ink); }
+.byline-vr { width:1px; height:13px; background:var(--rule-dk); }
+.byline-info { font-family:var(--mono); font-size:9px; color:var(--ink-4); }
+.byline-conf { font-family:var(--mono); font-size:9px; color:var(--green); }
+
+/* Article body typography */
+.article-body { max-width:620px; }
+.body-lede { font-family:var(--body); font-size:1.0625rem; line-height:1.8; color:var(--ink); margin-bottom:26px; font-weight:400; }
+.body-lede::first-letter { font-family:var(--serif-display); font-size:4.2em; line-height:.82; float:left; margin-right:5px; margin-top:5px; color:var(--black); }
+.body-p { font-family:var(--body); font-size:1rem; line-height:1.84; color:var(--ink-2); margin-bottom:22px; font-weight:300; }
+.body-h { font-family:var(--mono); font-size:8px; font-weight:500; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-4); margin-top:38px; margin-bottom:16px; padding-bottom:9px; border-bottom:1px solid var(--rule); display:flex; align-items:center; gap:10px; }
+.body-h::before { content:''; display:inline-block; width:10px; height:1.5px; background:var(--red); flex-shrink:0; }
+
+.method-note { margin-top:40px; padding:18px 20px; border-left:3px solid var(--black); background:var(--mist); }
+.method-lbl { font-family:var(--mono); font-size:8px; color:var(--ink-4); letter-spacing:.18em; text-transform:uppercase; margin-bottom:9px; }
+.method-txt { font-family:var(--body); font-size:12px; color:var(--ink-3); line-height:1.65; font-weight:300; }
+
+.more-section { margin-top:48px; }
+.more-card { border-top:1px solid var(--rule); padding:16px 0; cursor:pointer; display:grid; grid-template-columns:36px 1fr; gap:14px; align-items:start; }
+.more-num { font-family:var(--serif-display); font-size:22px; color:var(--rule-dk); line-height:1; text-align:right; transition:color .12s; padding-top:2px; }
+.more-card:hover .more-num { color:var(--red); }
+.more-cat { font-family:var(--mono); font-size:8px; color:var(--ink-4); letter-spacing:.12em; text-transform:uppercase; margin-bottom:5px; }
+.more-hed { font-family:var(--serif-text); font-size:.9375rem; font-weight:700; line-height:1.3; color:var(--ink); transition:color .12s; }
+.more-card:hover .more-hed { color:var(--red); }
+
+/* ═══ TRANSPARENCY PANEL ═══ */
+.panel { border:1px solid var(--rule); background:var(--white); }
+.panel-hd { background:var(--black); padding:11px 16px; display:flex; align-items:center; gap:9px; }
+.panel-dot { width:5px; height:5px; border-radius:50%; background:var(--red); flex-shrink:0; }
+.panel-title { font-family:var(--mono); font-size:8.5px; color:white; letter-spacing:.18em; text-transform:uppercase; }
+.panel-sec { padding:16px; border-bottom:1px solid var(--rule); }
+.panel-sec:last-of-type { border-bottom:none; }
+.psec-lbl { font-family:var(--mono); font-size:7.5px; color:var(--ink-4); letter-spacing:.18em; text-transform:uppercase; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--rule-lt); }
+.metric { display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:9px; }
+.metric:last-child { margin-bottom:0; }
+.mk { font-family:var(--body); font-size:11.5px; color:var(--ink-3); font-weight:300; }
+.mv { font-family:var(--mono); font-size:11px; color:var(--ink); font-weight:500; text-align:right; }
+.mv.ok { color:var(--green); }
+.conf-wrap { margin-top:14px; padding-top:12px; border-top:1px solid var(--rule-lt); }
+.conf-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+.conf-lbl { font-family:var(--body); font-size:11.5px; color:var(--ink-3); font-weight:300; }
+.conf-val { font-family:var(--mono); font-size:11px; color:var(--green); font-weight:500; }
+.conf-track { height:2px; background:var(--rule); }
+.conf-fill { height:100%; background:var(--green); transition:width 1s cubic-bezier(.4,0,.2,1); }
+
+.pipe-step { position:relative; padding-left:18px; margin-bottom:14px; }
+.pipe-step:last-child { margin-bottom:0; }
+.pipe-step::before { content:''; position:absolute; left:0; top:4px; width:5px; height:5px; border-radius:50%; background:var(--red); }
+.pipe-step::after { content:''; position:absolute; left:2px; top:12px; width:1px; height:calc(100% + 2px); background:var(--rule); }
+.pipe-step:last-child::after { display:none; }
+.pipe-name { font-family:var(--mono); font-size:8px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); margin-bottom:3px; }
+.pipe-detail { font-family:var(--body); font-size:11px; color:var(--ink-3); line-height:1.5; font-weight:300; }
+
+.region-chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.rc { font-family:var(--mono); font-size:8.5px; color:var(--blue); background:#EEF1F8; border:1px solid #D8DDEF; padding:2px 8px; }
+.cov-row { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+.cov-lbl { font-family:var(--body); font-size:11.5px; color:var(--ink-3); font-weight:300; }
+.cov-val { font-family:var(--mono); font-size:10.5px; color:var(--ink); }
+
+.ask-btns { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:11px; }
+.ask-btn { font-family:var(--mono); font-size:8px; letter-spacing:.1em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--rule-dk); color:var(--ink-3); background:var(--white); transition:all .12s; }
+.ask-btn:hover { background:var(--black); color:white; border-color:var(--black); }
+.ask-loading { display:flex; align-items:center; gap:6px; padding:8px 0; }
+.dot { width:4px; height:4px; border-radius:50%; background:var(--ink-4); animation:bop .8s ease-in-out infinite; }
+.dot:nth-child(2){animation-delay:.15s} .dot:nth-child(3){animation-delay:.3s}
+@keyframes bop{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.ask-loading-txt { font-family:var(--mono); font-size:8.5px; color:var(--ink-4); }
+.ask-response { border:1px solid var(--rule); border-left:2px solid var(--red); padding:11px 12px; background:var(--mist); }
+.ask-r-lbl { font-family:var(--mono); font-size:7.5px; color:var(--red); letter-spacing:.16em; text-transform:uppercase; margin-bottom:7px; }
+.ask-r-txt { font-family:var(--body); font-size:12px; color:var(--ink); line-height:1.65; font-weight:300; }
+
+.panel-foot { padding:11px 16px; background:var(--mist); border-top:1px solid var(--rule); }
+.panel-foot p { font-family:var(--mono); font-size:7.5px; color:var(--ink-4); line-height:1.7; }
+
+/* ═══ FOOTER ═══ */
+#site-footer { border-top:3px solid var(--black); background:var(--white); }
+.footer-grid { display:grid; grid-template-columns:260px 1fr 1fr; gap:0; padding:36px 0; border-bottom:1px solid var(--rule); }
+.footer-col { padding-right:36px; border-right:1px solid var(--rule); }
+.footer-col:last-child { border-right:none; padding-right:0; padding-left:36px; }
+.footer-col:nth-child(2) { padding-left:36px; }
+.footer-brand { font-family:var(--serif-display); font-size:20px; color:var(--black); display:block; margin-bottom:8px; }
+.footer-tag { font-family:var(--body); font-size:12px; color:var(--ink-3); line-height:1.6; font-style:italic; font-weight:300; max-width:210px; margin-bottom:16px; }
+.footer-live { display:flex; align-items:center; gap:7px; }
+.footer-live-txt { font-family:var(--mono); font-size:8px; color:var(--green); letter-spacing:.12em; text-transform:uppercase; }
+.footer-sec-title { font-family:var(--mono); font-size:8px; color:var(--ink-4); letter-spacing:.16em; text-transform:uppercase; margin-bottom:14px; }
+.footer-links { display:grid; grid-template-columns:1fr 1fr; gap:3px 16px; }
+.footer-link { font-family:var(--body); font-size:13px; color:var(--ink-3); padding:3px 0; cursor:pointer; transition:color .12s; font-weight:300; }
+.footer-link:hover { color:var(--ink); }
+.footer-about { font-family:var(--body); font-size:12px; color:var(--ink-3); line-height:1.65; font-weight:300; }
+.footer-bottom { height:38px; display:flex; align-items:center; justify-content:space-between; }
+.footer-copy { font-family:var(--mono); font-size:8.5px; color:var(--ink-4); }
+
+/* ═══ MOBILE ═══ */
+.hamburger { display:none; cursor:pointer; padding:4px; }
+.mobile-nav { display:none; background:var(--white); border-bottom:1px solid var(--rule); }
+.mobile-nav.open { display:block; }
+.mobile-nav-inner { padding:14px 20px; display:flex; flex-wrap:wrap; gap:4px; }
+.mnav-item { font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); padding:7px 13px; border:1px solid var(--rule); cursor:pointer; transition:all .12s; }
+.mnav-item:hover, .mnav-item.active { background:var(--black); color:white; border-color:var(--black); }
+
+@media (max-width: 1024px) {
+  .article-grid { grid-template-columns:repeat(2,1fr); }
+  .gc:nth-child(2) { border-right:none; padding-right:0; }
+  .gc:nth-child(3) { display:none; }
+}
+@media (max-width: 900px) {
+  .front-grid,.article-layout { grid-template-columns:1fr; }
+  .front-main { border-right:none; padding-right:0; border-bottom:1px solid var(--rule); padding-bottom:28px; }
+  .front-sidebar { padding-left:0; padding-top:24px; }
+  .article-col { border-right:none; padding-right:0; border-bottom:1px solid var(--rule); padding-bottom:36px; }
+  .panel-col { padding-left:0; padding-top:32px; }
+  .masthead-right,.section-nav { display:none; }
+  .masthead-inner { grid-template-columns:auto 1fr auto; }
+  .hamburger { display:block; }
+  .footer-grid { grid-template-columns:1fr; }
+  .footer-col { border-right:none; padding:0 0 24px; border-bottom:1px solid var(--rule); }
+  .footer-col:last-child { padding-bottom:0; border-bottom:none; }
+  .footer-col:nth-child(2) { padding-left:0; }
+}
+@media (max-width: 640px) {
+  .article-grid { grid-template-columns:1fr; }
+  .gc { border-right:none; padding-right:0; }
+  .gc:nth-child(3) { display:block; }
+  .stats-strip { grid-template-columns:repeat(2,1fr); }
+  .stat-cell { padding:12px 0; border-left:none; border-bottom:1px solid var(--rule); }
+  .strip-markets { display:none; }
+  .masthead-left { display:none; }
+  .logo-center { text-align:left; }
+}
+
+/* ═══ VIEWS ═══ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.view { display:none; }
+.view.active { display:block; animation:fadeUp .22s ease; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header id="site-header">
+  <div class="top-strip">
+    <div class="wrap top-strip-inner">
+      <span class="strip-date" id="strip-date"></span>
+      <div class="strip-markets">
+        <div class="mkt"><span class="mkt-n">S&amp;P 500</span><span class="mkt-v">5,234.18</span><span class="mkt-c up">+0.42%</span></div>
+        <div class="mkt"><span class="mkt-n">10Y UST</span><span class="mkt-v">4.312%</span><span class="mkt-c dn">−0.04</span></div>
+        <div class="mkt"><span class="mkt-n">WTI</span><span class="mkt-v">$78.34</span><span class="mkt-c dn">−0.61%</span></div>
+        <div class="mkt"><span class="mkt-n">EUR/USD</span><span class="mkt-v">1.0841</span><span class="mkt-c up">+0.12%</span></div>
+      </div>
+      <div class="strip-live"><div class="live-pulse"></div><span class="live-text">Live</span></div>
+    </div>
+  </div>
+
+  <div class="masthead">
+    <div class="wrap masthead-inner">
+      <div class="masthead-left">
+        <span class="mh-ed">AI-Native Edition · Vol. I</span>
+        <span class="mh-tag">Autonomous global intelligence reporting</span>
+      </div>
+      <div class="logo-center" onclick="showHome()">
+        <span class="logo-word">SignalDesk</span>
+        <span class="logo-sub">No human editors · No shortcuts · Verifiable reporting</span>
+      </div>
+      <div class="masthead-right">
+        <div class="mh-stat"><span class="mh-stat-v">224</span><span class="mh-stat-l">Sources live</span></div>
+        <div class="mh-vr"></div>
+        <div class="mh-stat"><span class="mh-stat-v">8.9</span><span class="mh-stat-l">Avg. confidence</span></div>
+        <div class="mh-vr"></div>
+        <div class="mh-stat"><span class="mh-stat-v" id="utc-time"></span><span class="mh-stat-l">UTC</span></div>
+      </div>
+      <button class="hamburger" onclick="toggleMobile()" aria-label="Menu">
+        <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+          <path d="M0 1h22M0 7h22M0 13h22" stroke="#141414" stroke-width="1.5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-inner">
+      <span class="mnav-item active" id="mnav-World"   onclick="filterCat('World')">World</span>
+      <span class="mnav-item" id="mnav-Tech"    onclick="filterCat('Tech')">Tech</span>
+      <span class="mnav-item" id="mnav-Economy" onclick="filterCat('Economy')">Economy</span>
+      <span class="mnav-item" id="mnav-Policy"  onclick="filterCat('Policy')">Policy</span>
+      <span class="mnav-item" id="mnav-Markets" onclick="filterCat('Markets')">Markets</span>
+      <span class="mnav-item" id="mnav-AI"      onclick="filterCat('AI')">AI</span>
+    </div>
+  </div>
+
+  <div class="section-nav">
+    <div class="wrap section-nav-inner">
+      <span class="nav-item active" id="nav-World"   onclick="filterCat('World')">World</span>
+      <span class="nav-item" id="nav-Tech"    onclick="filterCat('Tech')">Tech</span>
+      <span class="nav-item" id="nav-Economy" onclick="filterCat('Economy')">Economy</span>
+      <span class="nav-item" id="nav-Policy"  onclick="filterCat('Policy')">Policy</span>
+      <span class="nav-item" id="nav-Markets" onclick="filterCat('Markets')">Markets</span>
+      <span class="nav-item" id="nav-AI"      onclick="filterCat('AI')">AI</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════ TICKER ══════════════ -->
+<div class="ticker">
+  <div class="ticker-flag"><span>Signal</span></div>
+  <div class="ticker-track"><div class="ticker-belt" id="ticker-belt"></div></div>
+</div>
+
+<!-- ══════════════ HOME ══════════════ -->
+<div id="view-home" class="view active">
+  <div class="wrap">
+    <div class="editorial-bar">
+      <span class="ed-note">No human editors. No shortcuts. Just verifiable reporting.</span>
+      <span class="ed-note" id="story-count"></span>
+    </div>
+    <div class="front-page">
+      <div class="front-grid">
+        <div class="front-main" id="front-main"></div>
+        <div class="front-sidebar" id="front-sidebar"></div>
+      </div>
+    </div>
+    <div class="grid-section">
+      <div class="sec-div"><span class="sec-div-lbl" id="grid-label">Latest Reports</span><div class="sec-div-line"></div></div>
+      <div class="article-grid" id="article-grid"></div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-cell"><span class="stat-n">5</span><span class="stat-l">Articles published</span></div>
+      <div class="stat-cell"><span class="stat-n">224</span><span class="stat-l">Sources monitored</span></div>
+      <div class="stat-cell"><span class="stat-n">8.9/10</span><span class="stat-l">Avg. confidence</span></div>
+      <div class="stat-cell"><span class="stat-n">Global</span><span class="stat-l">Coverage scope</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ ARTICLE ══════════════ -->
+<div id="view-article" class="view">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <span class="bc" onclick="showHome()">Home</span>
+      <span class="bc-sep">/</span>
+      <span class="bc" id="bc-cat" onclick="breadcrumbCat()"></span>
+      <span class="bc-sep">/</span>
+      <span class="bc" id="bc-title" style="cursor:default;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+    </div>
+    <div class="article-layout">
+      <div class="article-col" id="article-col"></div>
+      <div class="panel-col"><div id="t-panel" style="position:sticky;top:115px"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer id="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <span class="footer-brand">SignalDesk</span>
+        <p class="footer-tag">"No human editors. No shortcuts. Just verifiable reporting."</p>
+        <div class="footer-live"><div class="live-pulse"></div><span class="footer-live-txt">Reporting engine active</span></div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-sec-title">Coverage Areas</div>
+        <div class="footer-links">
+          <span class="footer-link" onclick="filterCat('World')">World</span>
+          <span class="footer-link" onclick="filterCat('Tech')">Tech</span>
+          <span class="footer-link" onclick="filterCat('Economy')">Economy</span>
+          <span class="footer-link" onclick="filterCat('Policy')">Policy</span>
+          <span class="footer-link" onclick="filterCat('Markets')">Markets</span>
+          <span class="footer-link" onclick="filterCat('AI')">AI</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-sec-title">About SignalDesk</div>
+        <p class="footer-about">SignalDesk is an autonomous reporting system that monitors, investigates, and publishes structured news articles without human editorial intervention. Every article includes a full transparency panel disclosing sources, methodology, and confidence metrics.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 SignalDesk — Autonomous Intelligence Reporting</span>
+      <span class="footer-copy">Engine: SignalDesk AI v2.1 · Transparency-first publishing</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const ARTICLES=[{slug:"fed-rate-pause-global-debt",headline:"Federal Reserve Signals Prolonged Pause as Global Debt Burdens Reach Post-War Highs",subheadline:"With sovereign debt ratios in advanced economies approaching 130% of GDP, central bank officials warn that further tightening risks triggering cascading defaults across emerging markets.",summary:"The Fed's signaled pause on rate hikes arrives as global debt levels hit historic extremes, forcing a reckoning with decades of cheap-money policy.",category:"Economy",region:"Global",timeAgo:"2 hours ago",readTime:"6 min read",date:"April 1, 2026",confidence:9.1,sourcesAnalyzed:47,conflictingNarratives:3,regionsImpacted:["US","EU","Asia","LatAm"],coverageType:"Global",body:[{type:"lede",text:"WASHINGTON — The Federal Reserve held interest rates steady for a third consecutive meeting on Tuesday, a decision that carries outsized global consequence at a moment when the architecture of sovereign debt looks increasingly fragile. Fed Chair Jerome Powell acknowledged that the path back to 2% inflation remains incomplete, but signaled that the cost of further tightening — measured now not just in domestic terms but in global financial stability — has grown prohibitive."},{type:"p",text:"The pause arrives at an inflection point. Sovereign debt in the G7 economies has climbed to an average of 128% of GDP, a level not seen since the immediate aftermath of the Second World War. The International Monetary Fund describes the current environment as 'a compressed risk cascade,' in which rate-sensitive debt across emerging markets has become structurally dependent on dollar liquidity conditions that the Fed alone controls."},{type:"h",text:"The Accumulation Problem"},{type:"p",text:"Understanding how the world arrived at this juncture requires a look at two decades of policy choices made during periods of apparent stability. Following the 2008 financial crisis, central banks across the developed world suppressed borrowing costs to near zero, enabling governments, corporations, and households to expand balance sheets at historically low cost. The strategy arrested the immediate collapse. It also created a structural dependency."},{type:"p",text:"Between 2009 and 2021, global debt — public and private combined — rose from $169 trillion to $303 trillion, according to the Institute of International Finance. When the Fed began its tightening cycle in March 2022, it did not merely adjust the price of money in the United States. It changed the gravitational pull on capital worldwide. Emerging market currencies fell. Commodity-importing nations saw import bills surge in dollar terms."},{type:"h",text:"Who Faces the Pressure Now"},{type:"p",text:"Fourteen sovereign borrowers have approached the IMF for emergency support since January. Seven of those conversations have escalated to formal program discussions, spanning sub-Saharan Africa, South and Central Asia, and two Eastern European states not historically associated with debt distress. The common thread is structural exposure to dollar-denominated debt at a moment when the dollar remains elevated and refinancing windows have narrowed."},{type:"p",text:"Pakistan's external debt service now consumes 43% of export revenues. Egypt's central bank has drawn down foreign reserves by a third since 2022. In Argentina, the new government inherited a debt restructuring framework that economists across the political spectrum describe as unworkable under current rate conditions."},{type:"h",text:"The Fed's Calculus"},{type:"p",text:"Fed officials have been careful not to frame their decisions in global terms — the central bank's mandate is domestic: maximum employment and stable prices. But the spillover channel runs in both directions. A wave of emerging market defaults would tighten global financial conditions, reduce export demand for US goods, and generate the kind of financial market volatility that ultimately re-enters the American economy."},{type:"p",text:"'The Fed is in a position it has never quite occupied before,' said one senior economist at the Peterson Institute for International Economics, speaking on background. 'It is simultaneously the most powerful institution in the global financial system and one that is constitutionally limited to thinking about Cincinnati and not Colombo. That tension is real and it is not resolving cleanly.'"},{type:"h",text:"What Comes Next"},{type:"p",text:"Markets have priced in two rate cuts by the end of 2026, though the Fed's own projections show a wider-than-usual dispersion of views among committee members. The IMF's spring meetings in Washington later this month are expected to feature unusually candid discussions about a coordinated debt relief mechanism — a proposal that has stalled repeatedly in previous cycles but which now commands broader support among creditor nations."}],pipeline:[{step:"Aggregation",detail:"47 primary sources monitored across central bank communications, IMF documents, sovereign bond markets, and financial wire services."},{step:"Analysis",detail:"Cross-referenced Fed statements with GDP, debt-to-GDP ratios, reserve data, and refinancing schedules for 67 sovereign borrowers."},{step:"Synthesis",detail:"Identified structural causal chain connecting Fed policy to emerging market debt distress via dollar liquidity and refinancing cost channels."},{step:"Verification",detail:"Debt figures validated against World Bank, BIS, and IIF datasets. IMF document citations confirmed via independent channel."}]},{slug:"eu-ai-act-enforcement",headline:"Europe's AI Act Is Law. Enforcing It Is Another Matter Entirely.",subheadline:"Six months after the EU AI Act took effect, member states have appointed just three of the required national supervisory authorities — and the continent's most capable AI labs are operating in regulatory gray zones.",summary:"The EU's landmark AI legislation faces a growing implementation crisis as enforcement infrastructure lags years behind the law's ambitions.",category:"AI",region:"EU",timeAgo:"5 hours ago",readTime:"7 min read",date:"April 1, 2026",confidence:8.7,sourcesAnalyzed:39,conflictingNarratives:5,regionsImpacted:["EU","UK","US"],coverageType:"Regional",body:[{type:"lede",text:"BRUSSELS — When the European Union's AI Act entered into force last August, it was celebrated by regulators and civil society groups as the most comprehensive attempt by any government to impose binding rules on artificial intelligence. Six months into implementation, a different picture is emerging: a law of extraordinary ambition operating in an enforcement vacuum that its architects did not adequately plan for."},{type:"p",text:"Of the 27 EU member states, only three — France, the Netherlands, and Estonia — have formally designated the national competent authorities required under Article 70 of the Act. The remaining 24 are at various stages of legislation, interministerial negotiation, or institutional design. The European AI Office is operational but understaffed, currently running at roughly 40% of its planned capacity."},{type:"h",text:"What the Law Requires"},{type:"p",text:"The AI Act operates on a tiered risk architecture. Systems classified as high-risk — including AI used in hiring, credit scoring, law enforcement, and critical infrastructure — face mandatory conformity assessments, transparency obligations, and human oversight requirements before deployment. Unacceptable-risk systems, including social scoring and real-time biometric surveillance in public spaces, are outright prohibited."},{type:"h",text:"The Gray Zone Is Expanding"},{type:"p",text:"Industry observers report that several European AI developers are proceeding with high-risk system launches on timelines that assume enforcement will remain theoretical in the near term. Three people familiar with internal planning at major AI deployers confirmed that risk assessments explicitly factor in 'enforcement lag' as a variable that reduces the practical urgency of full compliance."},{type:"h",text:"What Effective Enforcement Would Require"},{type:"p",text:"Researchers at the Oxford Internet Institute estimate that effective enforcement of the AI Act's high-risk provisions would require approximately 4,000 trained AI auditors across the EU — a number that exceeds current supply by a factor of roughly eight. The technical standards that conformity assessments will use are still being developed, on a timeline that runs to late 2026 or beyond."},{type:"p",text:"None of this makes the AI Act a failure. Laws regularly precede the infrastructure required to enforce them, and the Act's existence has already had a shaping effect on industry behavior across the continent. But the gap between the law's stated ambitions and its current operational reality is wide — and the systems deployed during that gap will be far harder to investigate than those that were never deployed at all."}],pipeline:[{step:"Aggregation",detail:"39 sources including EU Official Journal filings, European AI Office documents, national parliamentary records, and industry briefing materials."},{step:"Analysis",detail:"Mapped member-state compliance status against Article 70 requirements; cross-referenced enforcement timelines with GDPR implementation precedent."},{step:"Synthesis",detail:"Identified structural gap between legislative ambition and enforcement infrastructure capacity across staffing, standards, and institutional design."},{step:"Verification",detail:"Designations confirmed via EUR-Lex and national government sources. Industry source characterizations validated across multiple independent contacts."}]},{slug:"china-semiconductor-self-sufficiency",headline:"China's Chip Drive Is Producing Results — Just Not the Ones Anyone Expected",subheadline:"Three years into its $150 billion semiconductor push, China leads in mature-node production while remaining structurally dependent on foreign technology for the leading-edge AI chips that define modern compute.",summary:"Beijing's self-sufficiency campaign has reshaped global chip supply chains without resolving the advanced-node dependency that motivated it.",category:"Tech",region:"Asia",timeAgo:"8 hours ago",readTime:"8 min read",date:"April 1, 2026",confidence:8.4,sourcesAnalyzed:53,conflictingNarratives:7,regionsImpacted:["Asia","US","EU","Global"],coverageType:"Global",body:[{type:"lede",text:"TAIPEI/BEIJING — When the United States expanded its semiconductor export controls in October 2022, the strategic calculation in Washington was relatively straightforward: technology denial would slow China's AI progress and protect American competitive advantage. Three years on, the picture is far more complicated than either side anticipated."},{type:"p",text:"China has not broken through to leading-edge chip production. Its most advanced domestically produced logic chips remain at 7-nanometer equivalent performance, several generations behind the 2-nanometer and 3-nanometer processes now deployed at TSMC and Samsung. The equipment chokepoints — lithography machines, precision chemicals, design software — have proven durable."},{type:"h",text:"The Mature Node Dominance"},{type:"p",text:"China now manufactures an estimated 25% of global mature-node semiconductors — the 28nm-and-above chips that power automobiles, industrial equipment, consumer electronics, and a substantial share of military and infrastructure systems. That market position, built on $150 billion in state investment over three years, is reshaping global pricing and supply security in ways that affect every country that relies on mature-node silicon."},{type:"h",text:"What the AI Constraint Means in Practice"},{type:"p",text:"China's AI labs — Baidu, Zhipu, MiniMax, and others — face a genuine constraint in building training clusters that approach the capabilities of their American counterparts. Domestic GPU alternatives from Huawei's Ascend series have improved materially, though remain below NVIDIA performance on benchmark training tasks. Chinese AI research has adapted by emphasizing inference efficiency and architectural innovation over raw scaling."},{type:"h",text:"The Strategic Ambiguity Going Forward"},{type:"p",text:"The current equilibrium — China dominant in mature nodes, constrained at the frontier — may not hold. Whether Shanghai Micro Electronics Equipment Group can extend its current capability to 7nm within a five-year horizon is actively debated among semiconductor analysts, with estimates ranging from 'unlikely but possible' to 'not before 2032.'"}],pipeline:[{step:"Aggregation",detail:"53 sources including CSIS reports, semiconductor trade publications, company filings, BIS export control documentation, and IEEE technical research."},{step:"Analysis",detail:"Tracked Chinese foundry capacity expansion against equipment import records; mapped domestic AI chip performance benchmarks against NVIDIA reference."},{step:"Synthesis",detail:"Distinguished mature-node success from advanced-node limitation; traced second-order effects on global supply chain pricing."},{step:"Verification",detail:"Production capacity figures cross-referenced with SEMI equipment data and independent fab analyst estimates."}]},{slug:"un-climate-finance-gap",headline:"The $2.4 Trillion Climate Finance Gap and the Countries Left to Close It Alone",subheadline:"A new UN analysis finds developing nations will need to mobilize 68% of required climate investment domestically by 2030 — a target that assumes fiscal capacity many of them do not have.",summary:"UN projections reveal a widening gulf between climate finance pledges and actual capital flows reaching the countries most vulnerable to climate breakdown.",category:"Policy",region:"Global",timeAgo:"1 day ago",readTime:"5 min read",date:"March 31, 2026",confidence:9.3,sourcesAnalyzed:41,conflictingNarratives:2,regionsImpacted:["Global","Africa","Asia","LatAm"],coverageType:"Global",body:[{type:"lede",text:"GENEVA — A comprehensive analysis released Tuesday by the United Nations Environment Programme quantifies the gap between what the climate transition requires and what the global financial system is currently delivering: $2.4 trillion annually, compounding across a planning horizon that ends in 2030. More troubling than the number itself is the distribution of who is expected to fill it."},{type:"p",text:"The UNEP report, drawing on data from 91 developing economies, finds that current international climate finance flows cover approximately 32% of what those countries require to meet their Paris Agreement commitments. The remaining 68% is projected to come from domestic sources: national budgets, local capital markets, and private investment mobilized within borders."},{type:"h",text:"The Fiscal Capacity Problem"},{type:"p",text:"Forty-one of the 91 countries in the UNEP dataset have sovereign credit ratings below investment grade. Twenty-seven have debt-service-to-revenue ratios that the IMF classifies as high distress risk — meaning that even concessional climate lending raises legitimate concerns about debt sustainability. For these governments, the choice between climate investment and fiscal stability is not rhetorical. It is the actual choice they face each budget cycle."},{type:"h",text:"What Was Promised"},{type:"p",text:"Developed nations pledged in Copenhagen in 2009 to mobilize $100 billion annually for developing countries by 2020. That target was not reached until 2022, two years late. At COP29 in Baku, developed nations committed to $300 billion annually by 2035 — a figure that climate economists across the spectrum assessed as insufficient relative to actual investment need."},{type:"h",text:"A Possible Path"},{type:"p",text:"The report identifies three structural interventions: a substantial expansion of Special Drawing Rights allocations from the IMF directed at climate-vulnerable nations; mandatory climate risk disclosure requirements that bring private institutional capital into emerging market clean energy projects at scale; and a reformed debt treatment framework allowing climate investment to be carved out from sovereign debt limits. Whether the gap narrows before 2030 will depend on decisions being made now in finance ministries in Berlin, Washington, Tokyo, and Beijing."}],pipeline:[{step:"Aggregation",detail:"41 sources including UNEP report primary text, COP agreement documents, IMF debt sustainability assessments, and MDB annual climate finance reports."},{step:"Analysis",detail:"Verified $2.4T figure against UNEP methodology; cross-referenced domestic mobilization assumption with sovereign credit ratings for 91-country dataset."},{step:"Synthesis",detail:"Connected finance gap to structural barriers in capital markets access, debt sustainability constraints, and credibility deficit from unmet prior commitments."},{step:"Verification",detail:"Copenhagen and COP29 commitment figures verified against UNFCCC records. $100B delivery date confirmed via OECD climate finance tracking report."}]},{slug:"nvidia-market-concentration",headline:"One Company Now Determines the Pace of the Global AI Economy. That Is a Risk No One Has Fully Priced.",subheadline:"Nvidia's GPU monopoly in AI training has created a single point of failure in the infrastructure of the most consequential technological transition of the century — and the alternatives are years behind.",summary:"Nvidia's dominance in AI compute has grown beyond market position into systemic infrastructure dependency, raising supply chain and concentration risks regulators are only beginning to examine.",category:"Markets",region:"US",timeAgo:"1 day ago",readTime:"6 min read",date:"March 31, 2026",confidence:8.9,sourcesAnalyzed:44,conflictingNarratives:4,regionsImpacted:["US","Global"],coverageType:"Global",body:[{type:"lede",text:"SANTA CLARA — At some point in the past three years, Nvidia crossed a line that separates dominant companies from systemic ones. It is no longer simply a firm with strong market share in a valuable product category. It is the rate-limiting input to an industry that is reshaping every other industry, and its chips have become infrastructure in the way that electrical grids and submarine cables are infrastructure — not merely competitive advantages but operational prerequisites for the economy's expanding frontier."},{type:"p",text:"Nvidia's H100 and H200 data center GPUs command an estimated 80–92% market share in AI training workloads. That figure has not declined as competitors have emerged. It has held or grown as the market itself has expanded explosively. AMD's MI300 series has achieved genuine commercial traction; Intel's Gaudi has found customers. None of this has materially reduced the training workload concentration that defines the frontier AI buildout."},{type:"h",text:"The CUDA Lock-In"},{type:"p",text:"The reason is not simply hardware performance. It is CUDA — Nvidia's proprietary parallel computing platform and programming model, developed over seventeen years and now embedded in virtually every significant AI research framework, model training pipeline, and production deployment system in the world. Moving off CUDA is not a procurement decision. It is a re-engineering project that touches codebases, institutional knowledge, hiring pipelines, and software libraries. The switching costs are, in practical terms for most organizations, prohibitive."},{type:"h",text:"The Supply Chain Dimension"},{type:"p",text:"Nvidia designs its chips but does not manufacture them — that work is performed predominantly by TSMC at its Taiwan facilities. The geographic concentration of advanced semiconductor manufacturing in Taiwan means Nvidia's supply chain runs through one of the world's most geologically active regions and one of its most geopolitically sensitive. A significant disruption to TSMC's Taiwan operations would constrain AI development globally for a period measured in years, not quarters."},{type:"h",text:"The Regulatory Gap"},{type:"p",text:"Antitrust regulators in the United States and Europe are examining Nvidia's market position, with the DOJ having opened a formal investigation. What the antitrust framework does not address is the systemic infrastructure risk that concentration creates independently of whether that concentration was achieved through unlawful means. That conversation is beginning in Basel and Brussels — but has not yet produced frameworks or action."}],pipeline:[{step:"Aggregation",detail:"44 sources including GPU market share analyses, CUDA ecosystem documentation, DOJ investigation filings, and semiconductor supply chain reports."},{step:"Analysis",detail:"Quantified Nvidia's training workload market share across competing methodologies; mapped CUDA switching cost structure through developer survey data."},{step:"Synthesis",detail:"Distinguished antitrust market-power framing from infrastructure systemic-risk framing; connected supply chain geographic concentration to AI compute dependency implications."},{step:"Verification",detail:"Market share figures cross-referenced across IDC, Omdia, and Bernstein Research estimates. TSMC risk characterized against USGS seismic data."}]}];
+
+const TICKER_DATA=[{cat:"Economy",text:"Fed holds rates for third consecutive meeting amid global sovereign debt concerns"},{cat:"AI",text:"EU AI Act enforcement lags as member states miss authority designation deadlines"},{cat:"Tech",text:"China's mature-node semiconductor output reaches 25% of global supply"},{cat:"Policy",text:"UN: $2.4 trillion annual climate finance gap widening despite COP pledges"},{cat:"Markets",text:"Nvidia GPU dominance holds at 80–92% of AI training workloads globally"}];
+
+let currentCat='World', currentArticle=null;
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('strip-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const tick=()=>{const n=new Date();const el=document.getElementById('utc-time');if(el)el.textContent=String(n.getUTCHours()).padStart(2,'0')+':'+String(n.getUTCMinutes()).padStart(2,'0');};
+  tick(); setInterval(tick,60000);
+  document.getElementById('ticker-belt').innerHTML=[...TICKER_DATA,...TICKER_DATA].map(i=>`<span class="tick"><span class="tick-sec">${i.cat}</span><span class="tick-bar"></span><span class="tick-txt">${i.text}</span><span class="tick-dot">◆</span></span>`).join('');
+  renderHome();
+});
+
+function showHome(){document.getElementById('view-home').classList.add('active');document.getElementById('view-article').classList.remove('active');window.scrollTo({top:0,behavior:'smooth'});}
+
+function showArticle(slug){currentArticle=ARTICLES.find(a=>a.slug===slug);if(!currentArticle)return;renderArticle(currentArticle);document.getElementById('view-home').classList.remove('active');document.getElementById('view-article').classList.add('active');window.scrollTo({top:0,behavior:'instant'});}
+
+function toggleMobile(){document.getElementById('mobile-nav').classList.toggle('open');}
+
+function filterCat(cat){
+  currentCat=cat;
+  document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.mnav-item').forEach(e=>e.classList.remove('active'));
+  const n=document.getElementById('nav-'+cat);if(n)n.classList.add('active');
+  const mn=document.getElementById('mnav-'+cat);if(mn)mn.classList.add('active');
+  document.getElementById('mobile-nav').classList.remove('open');
+  showHome(); renderHome();
+}
+
+function breadcrumbCat(){if(currentArticle)filterCat(currentArticle.category);}
+
+function renderHome(){
+  const featured=ARTICLES[0];
+  const all=currentCat==='World'?ARTICLES:ARTICLES.filter(a=>a.category===currentCat);
+  const others=all.filter(a=>a.slug!==featured.slug);
+  document.getElementById('story-count').textContent=`${all.length} ${currentCat.toLowerCase()} ${all.length===1?'story':'stories'}`;
+  document.getElementById('grid-label').textContent=currentCat==='World'?'Latest Reports':`${currentCat} Reports`;
+
+  const showLead=currentCat==='World'||featured.category===currentCat;
+  const fm=document.getElementById('front-main');
+  const fs=document.getElementById('front-sidebar');
+  if(showLead){
+    fm.style.display='';fs.style.display='';
+    fm.innerHTML=`
+      <div class="lead-kicker">Featured Report</div>
+      <div class="lead-headline" onclick="showArticle('${featured.slug}')">${featured.headline}</div>
+      <p class="lead-deck">${featured.subheadline}</p>
+      <div class="lead-meta">
+        <span class="lm-piece">${featured.category} · ${featured.region}</span>
+        <span class="lm-piece">${featured.timeAgo}</span>
+        <span class="lm-piece">${featured.readTime}</span>
+        <span class="lm-piece ok">Confidence ${featured.confidence}/10</span>
+        <span class="lm-piece">${featured.sourcesAnalyzed} sources</span>
+      </div>
+      <div class="lead-cta" onclick="showArticle('${featured.slug}')">Read full report <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+    fs.innerHTML=others.slice(0,3).map(a=>`
+      <div class="sb-story" onclick="showArticle('${a.slug}')">
+        <div class="sb-kicker">${a.category} · ${a.region}</div>
+        <div class="sb-hed">${a.headline}</div>
+        <p class="sb-deck">${a.summary}</p>
+        <div class="sb-time">${a.timeAgo} · ${a.readTime}</div>
+      </div>`).join('');
+  } else {
+    fm.style.display='none';fs.style.display='none';
+  }
+
+  const gridItems=others.slice(showLead?3:0);
+  const grid=document.getElementById('article-grid');
+  grid.innerHTML=gridItems.length===0
+    ?`<div style="grid-column:1/-1;padding:40px 0;text-align:center;border-top:1px solid var(--rule)"><p style="font-family:var(--mono);font-size:8.5px;color:var(--ink-4);letter-spacing:.16em;text-transform:uppercase">No additional reports in this category</p></div>`
+    :gridItems.slice(0,3).map(a=>`
+      <div class="gc" onclick="showArticle('${a.slug}')">
+        <div class="gc-kicker"><span class="gc-kicker-cat">${a.category}</span><span>·</span><span>${a.region}</span></div>
+        <div class="gc-hed">${a.headline}</div>
+        <p class="gc-deck">${a.summary}</p>
+        <div class="gc-foot"><span>${a.timeAgo}</span><span>·</span><span>${a.readTime}</span><span>·</span><span class="gc-conf">${a.confidence}/10</span></div>
+      </div>`).join('');
+}
+
+function renderArticle(art){
+  document.getElementById('bc-cat').textContent=art.category;
+  document.getElementById('bc-title').textContent=art.headline.slice(0,38)+'…';
+  const bodyHtml=art.body.map(b=>{
+    if(b.type==='lede')return`<p class="body-lede">${b.text}</p>`;
+    if(b.type==='h')  return`<div class="body-h">${b.text}</div>`;
+    return`<p class="body-p">${b.text}</p>`;
+  }).join('');
+  const more=ARTICLES.filter(a=>a.slug!==art.slug).slice(0,3);
+  const moreHtml=more.map((a,i)=>`
+    <div class="more-card" onclick="showArticle('${a.slug}')">
+      <span class="more-num">0${i+1}</span>
+      <div><div class="more-cat">${a.category} · ${a.region}</div><div class="more-hed">${a.headline}</div></div>
+    </div>`).join('');
+
+  document.getElementById('article-col').innerHTML=`
+    <div class="art-kicker">
+      <span class="art-cat">${art.category}</span>
+      <div class="art-vr"></div>
+      <span class="art-region">${art.region}</span>
+    </div>
+    <h1 class="article-headline">${art.headline}</h1>
+    <p class="article-deck">${art.subheadline}</p>
+    <div class="byline">
+      <div class="byline-badge"><span>SD</span></div>
+      <span class="byline-name">SignalDesk AI</span>
+      <div class="byline-vr"></div>
+      <span class="byline-info">Generated ${art.date}</span>
+      <div class="byline-vr"></div>
+      <span class="byline-info">${art.readTime}</span>
+      <div class="byline-vr"></div>
+      <span class="byline-conf">Confidence ${art.confidence}/10</span>
+    </div>
+    <div class="article-body">${bodyHtml}</div>
+    <div class="method-note">
+      <div class="method-lbl">Reporting Methodology</div>
+      <p class="method-txt">This article was autonomously reported by SignalDesk AI. The system aggregated ${art.sourcesAnalyzed} primary sources, identified ${art.conflictingNarratives} conflicting narratives, and assigned a confidence score of ${art.confidence}/10 based on source corroboration, data quality, and signal consistency. No human editorial judgment was applied at any stage of production.</p>
+    </div>
+    <div class="more-section">
+      <div class="sec-div" style="margin-bottom:0"><span class="sec-div-lbl">More Reports</span><div class="sec-div-line"></div></div>
+      ${moreHtml}
+    </div>`;
+
+  const pct=(art.confidence/10)*100;
+  const regions=art.regionsImpacted.map(r=>`<span class="rc">${r}</span>`).join('');
+  const pipe=art.pipeline.map(p=>`<div class="pipe-step"><div class="pipe-name">${p.step}</div><p class="pipe-detail">${p.detail}</p></div>`).join('');
+  document.getElementById('t-panel').innerHTML=`
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-dot"></div><span class="panel-title">Reporting Transparency</span></div>
+      <div class="panel-sec">
+        <div class="psec-lbl">Signal Metrics</div>
+        <div class="metric"><span class="mk">Sources analyzed</span><span class="mv">${art.sourcesAnalyzed}</span></div>
+        <div class="metric"><span class="mk">Cross-referenced</span><span class="mv ok">Confirmed</span></div>
+        <div class="metric"><span class="mk">Conflicting narratives</span><span class="mv">${art.conflictingNarratives} detected</span></div>
+        <div class="conf-wrap">
+          <div class="conf-row"><span class="conf-lbl">Confidence score</span><span class="conf-val">${art.confidence}/10</span></div>
+          <div class="conf-track"><div class="conf-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>
+      <div class="panel-sec"><div class="psec-lbl">Reporting Pipeline</div>${pipe}</div>
+      <div class="panel-sec">
+        <div class="psec-lbl">Coverage Scope</div>
+        <div style="font-family:var(--mono);font-size:8px;color:var(--ink-4);letter-spacing:.1em;text-transform:uppercase">Regions impacted</div>
+        <div class="region-chips">${regions}</div>
+        <div class="cov-row"><span class="cov-lbl">Coverage type</span><span class="cov-val">${art.coverageType}</span></div>
+      </div>
+      <div class="panel-sec">
+        <div class="psec-lbl">Ask This Story</div>
+        <div class="ask-btns">
+          <button class="ask-btn" onclick="handleAsk('simple','${art.slug}')">Explain simply</button>
+          <button class="ask-btn" onclick="handleAsk('matters','${art.slug}')">Why it matters</button>
+          <button class="ask-btn" onclick="handleAsk('next','${art.slug}')">What happens next</button>
+        </div>
+        <div id="ask-out"></div>
+      </div>
+      <div class="panel-foot"><p>SignalDesk reports are generated autonomously. Confidence metrics reflect signal quality and source corroboration — not editorial opinion. No human editors reviewed this content.</p></div>
+    </div>`;
+}
+
+async function handleAsk(type,slug){
+  const art=ARTICLES.find(a=>a.slug===slug);if(!art)return;
+  const prompts={
+    simple:`Explain this news article in 3 simple, concrete sentences for someone unfamiliar with the topic. No jargon. Article: "${art.headline}". Context: ${art.summary}`,
+    matters:`In 3 sentences, explain why this story matters for ordinary people and the broader world. Focus on real-world consequences. Article: "${art.headline}". Context: ${art.summary}`,
+    next:`In 3 sentences, describe the most likely developments that will follow from this situation. Be specific and analytical. Article: "${art.headline}". Context: ${art.summary}`
+  };
+  const labels={simple:'Plain language',matters:'Why it matters',next:'What happens next'};
+  const out=document.getElementById('ask-out');
+  out.innerHTML=`<div class="ask-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="ask-loading-txt">Analyzing…</span></div>`;
+  try{
+    const res=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:prompts[type]})});
+    if(!res.ok) throw new Error('Request failed');
+    const data=await res.json();
+    out.innerHTML=`<div class="ask-response"><div class="ask-r-lbl">${labels[type]}</div><p class="ask-r-txt">${data.text}</p></div>`;
+  }catch{out.innerHTML=`<div class="ask-response"><p class="ask-r-txt" style="color:var(--ink-4)">Unable to generate response at this time.</p></div>`;}
+}
+</script>
+</body>
+</html>
